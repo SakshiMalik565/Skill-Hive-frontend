@@ -1,0 +1,179 @@
+.swap-card {
+  background: var(--bg-card);
+  border-radius: var(--radius-lg);
+  padding: 0;
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition-normal);
+  overflow: hidden;
+  position: relative;
+  border: 1px solid rgba(78, 205, 196, 0.06);
+}
+
+.swap-card-border-glow {
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius-lg);
+  opacity: 0;
+  transition: var(--transition-normal);
+  pointer-events: none;
+  border: 2px solid transparent;
+  background: var(--gradient-primary) border-box;
+  -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+}
+
+.swap-card:hover .swap-card-border-glow {
+  opacity: 1;
+}
+
+.swap-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 24px 0;
+}
+
+.swap-card-users {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.swap-card-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 700;
+  font-size: 14px;
+  font-family: var(--font-heading);
+}
+
+.swap-card-arrow {
+  font-size: 20px;
+  color: var(--text-light);
+}
+
+.swap-card-status {
+  padding: 5px 14px;
+  border-radius: var(--radius-full);
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.swap-card-body {
+  padding: 20px 24px 24px;
+}
+
+.swap-card-skills {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.swap-card-skill {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.swap-card-skill-label {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-light);
+}
+
+.swap-card-skill-name {
+  font-weight: 700;
+  font-size: 15px;
+  padding: 6px 12px;
+  border-radius: var(--radius-sm);
+}
+
+.swap-skill-coral {
+  background: rgba(255, 107, 107, 0.08);
+  color: var(--coral-dark);
+}
+
+.swap-skill-teal {
+  background: rgba(78, 205, 196, 0.08);
+  color: var(--teal-dark);
+}
+
+.swap-card-exchange-icon {
+  font-size: 20px;
+  color: var(--text-light);
+  margin-top: 16px;
+}
+
+.swap-card-meta {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+.swap-card-meta-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 13px;
+  color: var(--text-light);
+}
+
+.swap-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 16px;
+  border-top: 1px solid rgba(78, 205, 196, 0.08);
+}
+
+.swap-card-user-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.swap-card-with {
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.swap-card-link {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--teal);
+  transition: var(--transition-normal);
+}
+
+.swap-card-link:hover {
+  color: var(--teal-dark);
+  gap: 8px;
+}
+
+@media (max-width: 480px) {
+  .swap-card-skills {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .swap-card-exchange-icon {
+    margin-top: 0;
+    text-align: center;
+  }
+}
