@@ -1,0 +1,50 @@
+.star-rating {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.star-icon {
+  display: flex;
+  color: var(--text-light);
+  transition: var(--transition-fast);
+}
+
+.star-full {
+  color: var(--amber-dark);
+  fill: var(--amber-dark);
+}
+
+.star-full svg {
+  fill: var(--amber-dark);
+}
+
+.star-half {
+  color: var(--amber-dark);
+}
+
+.star-value {
+  margin-left: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.star-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--text-light);
+  display: flex;
+  padding: 2px;
+  transition: var(--transition-fast);
+}
+
+.star-btn:hover,
+.star-active {
+  color: var(--amber-dark);
+}
+
+.star-active svg {
+  fill: var(--amber-dark);
+}
