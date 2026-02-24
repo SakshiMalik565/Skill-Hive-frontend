@@ -31,6 +31,18 @@ export function validateRegister(values) {
     errors.email = 'Invalid email format';
   }
 
+  if (!values.otp) {
+    errors.otp = 'OTP is required';
+  } else if (!/^\d{6}$/.test(values.otp)) {
+    errors.otp = 'OTP must be 6 digits';
+  }
+
+  return errors;
+}
+
+export function validatePassword(values) {
+  const errors = {};
+
   if (!values.password) {
     errors.password = 'Password is required';
   } else if (values.password.length < 6) {
