@@ -66,12 +66,6 @@ export default function Login() {
                 <div className="auth-feature">🔄 8,000+ skills exchanged</div>
                 <div className="auth-feature">⭐ 4.8 average rating</div>
               </div>
-
-              <div className="auth-demo-box">
-                <h4>Demo Credentials</h4>
-                <p><strong>Email:</strong> alex@demo.com</p>
-                <p><strong>Password:</strong> Demo@123</p>
-              </div>
             </div>
           </motion.div>
 
@@ -157,6 +151,12 @@ export default function Login() {
                   Sign In
                 </Button>
               </form>
+
+              <p className="auth-forgot">
+                <Link to="/forgot-password" className="auth-switch-link">
+                  Forgot Password?
+                </Link>
+              </p>
 
               <p className="auth-switch">
                 Don't have an account?{' '}
