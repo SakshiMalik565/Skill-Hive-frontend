@@ -25,10 +25,13 @@ API.interceptors.response.use(
       error.response?.data?.message || error.message || 'Something went wrong';
 
     if (error.response?.status === 401) {
-      localStorage.removeItem('skillswap_token');
-      localStorage.removeItem('skillswap_user');
-      toast.error('Session expired. Please login again.');
-      window.location.href = '/login';
+      const isAuthRoute = window.location.pathname === '/login' || window.location.pathname === '/register' || window.location.pathname === '/forgot-password';
+      if (!isAuthRoute) {
+        localStorage.removeItem('skillswap_token');
+        localStorage.removeItem('skillswap_user');
+        toast.error('Session expired. Please login again.');
+        window.location.href = '/login';
+      }
     } else if (error.response?.status === 403) {
       toast.error('Access denied');
     } else if (error.response?.status >= 500) {
