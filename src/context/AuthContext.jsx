@@ -1,5 +1,6 @@
 import { createContext, useContext, useReducer, useEffect } from 'react';
 import toast from 'react-hot-toast';
+import authService from '../services/authService';
 
 const AuthContext = createContext(null);
 
@@ -125,59 +126,63 @@ export function AuthProvider({ children }) {
 
   const login = async (email, password) => {
     dispatch({ type: ACTIONS.SET_LOADING, payload: true });
-    await delay(800);
+    try {
+      const res = await authService.login({ email, password });
+      const { user, token } = res.data.data;
 
-    const user = MOCK_USERS.find(
-      (u) => u.email === email && u.password === password
-    );
+      localStorage.setItem('skillswap_token', token);
+      localStorage.setItem('skillswap_user', JSON.stringify(user));
 
-    if (!user) {
+      dispatch({ type: ACTIONS.SET_USER, payload: { user, token } });
+      toast.success(`Welcome back, ${user.name}!`);
+      return user;
+    } catch (error) {
       dispatch({ type: ACTIONS.SET_LOADING, payload: false });
-      throw new Error('Invalid email or password');
+      throw new Error(error.message || 'Invalid email or password');
     }
+  };
 
-    const { password: _, ...safeUser } = user;
-    const token = `mock_jwt_${user._id}_${Date.now()}`;
+  const sendOtp = async (email) => {
+    const res = await authService.sendOtp(email);
+    return res.data;
+  };
 
-    localStorage.setItem('skillswap_token', token);
-    localStorage.setItem('skillswap_user', JSON.stringify(safeUser));
+  const verifyOtp = async (email, otp) => {
+    const res = await authService.verifyOtp(email, otp);
+    return res.data;
+  };
 
-    dispatch({ type: ACTIONS.SET_USER, payload: { user: safeUser, token } });
-    toast.success(`Welcome back, ${safeUser.name}!`);
-    return safeUser;
+  const forgotPassword = async (email) => {
+    const res = await authService.forgotPassword(email);
+    return res.data;
+  };
+
+  const resetPassword = async (data) => {
+    const res = await authService.resetPassword(data);
+    return res.data;
   };
 
   const register = async (userData) => {
     dispatch({ type: ACTIONS.SET_LOADING, payload: true });
-    await delay(1000);
+    try {
+      const res = await authService.register({
+        name: userData.name,
+        email: userData.email,
+        password: userData.password,
+        otp: userData.otp,
+      });
 
-    const exists = MOCK_USERS.find((u) => u.email === userData.email);
-    if (exists) {
+      const { user, token } = res.data.data;
+      localStorage.setItem('skillswap_token', token);
+      localStorage.setItem('skillswap_user', JSON.stringify(user));
+
+      dispatch({ type: ACTIONS.SET_USER, payload: { user, token } });
+      toast.success('Account created successfully!');
+      return user;
+    } catch (error) {
       dispatch({ type: ACTIONS.SET_LOADING, payload: false });
-      throw new Error('Email already registered');
+      throw new Error(error.message || 'Registration failed');
     }
-
-    const newUser = {
-      _id: String(Date.now()),
-      name: userData.name,
-      email: userData.email,
-      role: 'user',
-      bio: '',
-      skillsOffered: [],
-      skillsWanted: [],
-      rating: 0,
-      profilePic: '',
-    };
-
-    const token = `mock_jwt_${newUser._id}_${Date.now()}`;
-    localStorage.setItem('skillswap_token', token);
-    localStorage.setItem('skillswap_user', JSON.stringify(newUser));
-
-    MOCK_USERS.push({ ...newUser, password: userData.password });
-
-    dispatch({ type: ACTIONS.SET_USER, payload: { user: newUser, token } });
-    toast.success('Account created successfully!');
-    return newUser;
   };
 
   const logout = () => {
@@ -200,6 +205,10 @@ export function AuthProvider({ children }) {
     ...state,
     login,
     register,
+    sendOtp,
+    verifyOtp,
+    forgotPassword,
+    resetPassword,
     logout,
     updateProfile,
     MOCK_USERS,
