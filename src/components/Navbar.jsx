@@ -25,6 +25,7 @@ export default function Navbar() {
   const navLinks = isAuthenticated
     ? [
         { path: '/dashboard', label: 'Dashboard' },
+        { path: '/feed', label: 'Feed' },
         { path: '/create-swap', label: 'New Swap' },
         { path: '/profile', label: 'Profile' },
       ]

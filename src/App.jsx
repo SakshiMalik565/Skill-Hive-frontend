@@ -14,6 +14,8 @@ import Dashboard from './pages/Dashboard';
 import Profile from './pages/Profile';
 import CreateSwap from './pages/CreateSwap';
 import SwapDetails from './pages/SwapDetails';
+import Inbox from './pages/Inbox';
+import Feed from './pages/Feed';
 import NotFound from './pages/NotFound';
 
 export default function App() {
@@ -41,6 +43,22 @@ export default function App() {
                 element={
                   <ProtectedRoute>
                     <Dashboard />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/feed"
+                element={
+                  <ProtectedRoute>
+                    <Feed />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/inbox"
+                element={
+                  <ProtectedRoute>
+                    <Inbox />
                   </ProtectedRoute>
                 }
               />

@@ -11,6 +11,12 @@
   gap: 16px;
 }
 
+.dashboard-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
 .dashboard-stats {
   display: grid;
   grid-template-columns: repeat(4, 1fr);

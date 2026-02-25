@@ -1,6 +1,7 @@
 import { createContext, useContext, useReducer, useEffect } from 'react';
 import toast from 'react-hot-toast';
 import authService from '../services/authService';
+import userService from '../services/userService';
 
 const AuthContext = createContext(null);
 
@@ -192,13 +193,21 @@ export function AuthProvider({ children }) {
     toast.success('Logged out successfully');
   };
 
-  const updateProfile = async (updates) => {
-    await delay(600);
-    const updatedUser = { ...state.user, ...updates };
+  const applyUserUpdate = (updatedUser) => {
     localStorage.setItem('skillswap_user', JSON.stringify(updatedUser));
-    dispatch({ type: ACTIONS.UPDATE_USER, payload: updates });
-    toast.success('Profile updated!');
-    return updatedUser;
+    dispatch({ type: ACTIONS.UPDATE_USER, payload: updatedUser });
+  };
+
+  const updateProfile = async (updates) => {
+    try {
+      const res = await userService.updateProfile(updates);
+      const updatedUser = res.data.data.user;
+      applyUserUpdate(updatedUser);
+      toast.success('Profile updated!');
+      return updatedUser;
+    } catch (error) {
+      throw new Error(error.message || 'Profile update failed');
+    }
   };
 
   const value = {
@@ -211,6 +220,7 @@ export function AuthProvider({ children }) {
     resetPassword,
     logout,
     updateProfile,
+    applyUserUpdate,
     MOCK_USERS,
   };
 
