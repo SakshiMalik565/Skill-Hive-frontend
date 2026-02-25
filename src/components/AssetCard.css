@@ -1,0 +1,101 @@
+.asset-card {
+  background: #111827;
+  color: #f8fafc;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.5);
+  display: grid;
+  grid-template-columns: 180px 1fr;
+  min-height: 220px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.asset-card-media {
+  position: relative;
+  overflow: hidden;
+}
+
+.asset-card-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.asset-media-fallback {
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at top, rgba(94, 234, 212, 0.4), transparent 55%),
+    linear-gradient(135deg, rgba(14, 116, 144, 0.55), rgba(2, 6, 23, 0.95));
+}
+
+.asset-card-body {
+  padding: 20px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.asset-user {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.asset-avatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: rgba(94, 234, 212, 0.2);
+  color: #5eead4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+}
+
+.asset-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.asset-username {
+  font-weight: 700;
+  color: #f8fafc;
+  display: block;
+}
+
+.asset-timestamp {
+  font-size: 12px;
+  color: rgba(248, 250, 252, 0.55);
+  display: block;
+  margin-top: 2px;
+}
+
+.asset-skill {
+  font-size: 20px;
+  color: #f8fafc;
+}
+
+.asset-description {
+  font-size: 14px;
+  color: rgba(248, 250, 252, 0.75);
+  line-height: 1.6;
+}
+
+.asset-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 900px) {
+  .asset-card {
+    grid-template-columns: 1fr;
+  }
+
+  .asset-card-media {
+    height: 180px;
+  }
+}
