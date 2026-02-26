@@ -20,8 +20,9 @@ export default function Feed() {
   const [newAsset, setNewAsset] = useState({
     skillOffered: '',
     description: '',
-    backgroundPhoto: '',
   });
+  const [assetPhotos, setAssetPhotos] = useState([]);
+  const [assetVideos, setAssetVideos] = useState([]);
 
   const params = useMemo(
     () => ({
@@ -75,12 +76,16 @@ export default function Feed() {
     }
     try {
       setIsSubmitting(true);
-      await assetService.createAsset({
-        skillOffered: newAsset.skillOffered.trim(),
-        description: newAsset.description.trim(),
-        backgroundPhoto: newAsset.backgroundPhoto.trim(),
-      });
-      setNewAsset({ skillOffered: '', description: '', backgroundPhoto: '' });
+      const formData = new FormData();
+      formData.append('skillOffered', newAsset.skillOffered.trim());
+      formData.append('description', newAsset.description.trim());
+      assetPhotos.forEach((file) => formData.append('photos', file));
+      assetVideos.forEach((file) => formData.append('videos', file));
+
+      await assetService.createAsset(formData);
+      setNewAsset({ skillOffered: '', description: '' });
+      setAssetPhotos([]);
+      setAssetVideos([]);
       toast.success('Asset posted. Others can see it in their feed.');
     } catch (error) {
       toast.error(error?.message || 'Unable to create asset');
@@ -127,12 +132,16 @@ export default function Feed() {
                 }
               />
               <input
-                type="url"
-                placeholder="Background image URL (optional)"
-                value={newAsset.backgroundPhoto}
-                onChange={(event) =>
-                  setNewAsset((prev) => ({ ...prev, backgroundPhoto: event.target.value }))
-                }
+                type="file"
+                accept="image/*"
+                multiple
+                onChange={(event) => setAssetPhotos(Array.from(event.target.files || []))}
+              />
+              <input
+                type="file"
+                accept="video/*"
+                multiple
+                onChange={(event) => setAssetVideos(Array.from(event.target.files || []))}
               />
             </div>
             <Button

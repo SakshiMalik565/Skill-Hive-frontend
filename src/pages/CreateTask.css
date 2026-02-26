@@ -1,0 +1,26 @@
+.create-task-page {
+  padding: 110px 0 70px;
+}
+
+.create-task-card {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 32px;
+}
+
+.create-task-form {
+  display: grid;
+  gap: 18px;
+}
+
+.create-task-form .form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+@media (max-width: 768px) {
+  .create-task-form .form-row {
+    grid-template-columns: 1fr;
+  }
+}

@@ -16,9 +16,10 @@ const getInitials = (value) => {
   return `${parts[0].charAt(0)}${parts[1].charAt(0)}`.toUpperCase();
 };
 
-export default function AssetCard({ asset, index }) {
+export default function AssetCard({ asset, index, showActions = true }) {
   const user = asset.user || {};
-  const hasBackground = Boolean(asset.backgroundPhoto);
+  const photoUrl = asset.backgroundPhoto || (asset.photos && asset.photos[0]) || '';
+  const videoUrl = !photoUrl && asset.videos && asset.videos[0] ? asset.videos[0] : '';
 
   return (
     <motion.article
@@ -28,8 +29,10 @@ export default function AssetCard({ asset, index }) {
       transition={{ delay: index * 0.06 }}
     >
       <div className="asset-card-media">
-        {hasBackground ? (
-          <img src={asset.backgroundPhoto} alt={asset.skillOffered} />
+        {photoUrl ? (
+          <img src={photoUrl} alt={asset.skillOffered} />
+        ) : videoUrl ? (
+          <video src={videoUrl} controls preload="metadata" />
         ) : (
           <div className="asset-media-fallback" />
         )}
@@ -54,18 +57,20 @@ export default function AssetCard({ asset, index }) {
         <h3 className="asset-skill">{asset.skillOffered}</h3>
         <p className="asset-description">{asset.description}</p>
 
-        <div className="asset-actions">
-          <Link to={`/profile/${user._id}`}>
-            <Button variant="secondary" size="sm">
-              View Profile
-            </Button>
-          </Link>
-          <Link to={`/create-swap?receiverId=${user._id}`}>
-            <Button variant="primary" size="sm">
-              Request Skill Swap
-            </Button>
-          </Link>
-        </div>
+        {showActions && (
+          <div className="asset-actions">
+            <Link to={`/profile/${user._id}`}>
+              <Button variant="secondary" size="sm">
+                View Profile
+              </Button>
+            </Link>
+            <Link to={`/create-swap?receiverId=${user._id}`}>
+              <Button variant="primary" size="sm">
+                Request Skill Swap
+              </Button>
+            </Link>
+          </div>
+        )}
       </div>
     </motion.article>
   );

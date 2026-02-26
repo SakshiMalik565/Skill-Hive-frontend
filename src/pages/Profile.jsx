@@ -7,10 +7,12 @@ import Button from '../components/Button';
 import SkillTag from '../components/SkillTag';
 import StarRating from '../components/StarRating';
 import LoadingSpinner from '../components/LoadingSpinner';
+import AssetCard from '../components/AssetCard';
 import { useAuth } from '../context/AuthContext';
 import { useSwaps } from '../context/SwapContext';
 import { getInitials, getAvatarGradient } from '../utils/helpers';
 import userService from '../services/userService';
+import assetService from '../services/assetService';
 import toast from 'react-hot-toast';
 import './Profile.css';
 
@@ -31,6 +33,8 @@ export default function Profile() {
   const [isLoading, setIsLoading] = useState(false);
   const [viewedUser, setViewedUser] = useState(null);
   const [uploading, setUploading] = useState({ profile: false, background: false });
+  const [myAssets, setMyAssets] = useState([]);
+  const [isAssetsLoading, setIsAssetsLoading] = useState(false);
 
   const isOwner = !id || id === user?._id;
   const activeUser = isOwner ? user : viewedUser;
@@ -119,6 +123,23 @@ export default function Profile() {
 
     loadUser();
   }, [id, isOwner]);
+
+  useEffect(() => {
+    const loadAssets = async () => {
+      if (!isOwner) return;
+      try {
+        setIsAssetsLoading(true);
+        const res = await assetService.getMyAssets({ limit: 12 });
+        setMyAssets(res.data.data.assets || []);
+      } catch {
+        toast.error('Failed to load your assets');
+      } finally {
+        setIsAssetsLoading(false);
+      }
+    };
+
+    loadAssets();
+  }, [isOwner]);
 
   const swapHistory = useMemo(() => {
     if (!activeUser?._id) return [];
@@ -376,6 +397,28 @@ export default function Profile() {
               )}
             </motion.div>
           </div>
+
+          {isOwner && (
+            <motion.div
+              className="profile-section card"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.35 }}
+            >
+              <h2 className="profile-section-title">My Assets</h2>
+              {isAssetsLoading ? (
+                <LoadingSpinner text="Loading your assets..." />
+              ) : myAssets.length === 0 ? (
+                <p className="profile-bio">You have not posted any assets yet.</p>
+              ) : (
+                <div className="profile-assets-grid">
+                  {myAssets.map((asset, index) => (
+                    <AssetCard key={asset._id} asset={asset} index={index} showActions={false} />
+                  ))}
+                </div>
+              )}
+            </motion.div>
+          )}
 
           {/* Swap History */}
           <motion.div

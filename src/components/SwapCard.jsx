@@ -4,12 +4,27 @@ import { FiArrowRight, FiCalendar, FiClock } from 'react-icons/fi';
 import { HiOutlineSwitchHorizontal } from 'react-icons/hi';
 import { getStatusColor, getInitials, getAvatarGradient, timeAgo, formatDate } from '../utils/helpers';
 import StarRating from './StarRating';
+import { useSwaps } from '../context/SwapContext';
+import toast from 'react-hot-toast';
 import './SwapCard.css';
 
 export default function SwapCard({ swap, index = 0, currentUserId }) {
   const statusInfo = getStatusColor(swap.status);
   const isRequester = swap.requester._id === currentUserId;
   const otherUser = isRequester ? swap.receiver : swap.requester;
+  const { deleteSwap } = useSwaps();
+
+  const canDelete = isRequester && swap.status === 'pending';
+
+  const handleDelete = async () => {
+    const confirmed = window.confirm('Delete this swap request?');
+    if (!confirmed) return;
+    try {
+      await deleteSwap(swap._id);
+    } catch (error) {
+      toast.error(error?.message || 'Unable to delete swap');
+    }
+  };
 
   return (
     <motion.div
@@ -78,9 +93,16 @@ export default function SwapCard({ swap, index = 0, currentUserId }) {
             </span>
             {otherUser.rating > 0 && <StarRating rating={otherUser.rating} size={13} />}
           </div>
-          <Link to={`/swap/${swap._id}`} className="swap-card-link">
-            View <FiArrowRight />
-          </Link>
+          <div className="swap-card-actions">
+            {canDelete && (
+              <button type="button" className="swap-card-delete" onClick={handleDelete}>
+                Delete
+              </button>
+            )}
+            <Link to={`/swap/${swap._id}`} className="swap-card-link">
+              View <FiArrowRight />
+            </Link>
+          </div>
         </div>
       </div>
 
