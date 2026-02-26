@@ -11,6 +11,11 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import ForgotPassword from './pages/ForgotPassword';
 import Dashboard from './pages/Dashboard';
+import Projects from './pages/Projects';
+import CreateProject from './pages/CreateProject';
+import ProjectDetails from './pages/ProjectDetails';
+import CreateTask from './pages/CreateTask';
+import EditTask from './pages/EditTask';
 import Profile from './pages/Profile';
 import CreateSwap from './pages/CreateSwap';
 import SwapDetails from './pages/SwapDetails';
@@ -51,6 +56,46 @@ export default function App() {
                 element={
                   <ProtectedRoute>
                     <Feed />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/projects"
+                element={
+                  <ProtectedRoute>
+                    <Projects />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/projects/new"
+                element={
+                  <ProtectedRoute>
+                    <CreateProject />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/projects/:id"
+                element={
+                  <ProtectedRoute>
+                    <ProjectDetails />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/projects/:id/tasks/new"
+                element={
+                  <ProtectedRoute>
+                    <CreateTask />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/tasks/:id/edit"
+                element={
+                  <ProtectedRoute>
+                    <EditTask />
                   </ProtectedRoute>
                 }
               />

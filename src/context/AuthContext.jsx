@@ -40,69 +40,6 @@ function authReducer(state, action) {
   }
 }
 
-const MOCK_USERS = [
-  {
-    _id: '1',
-    name: 'Alex Rivera',
-    email: 'alex@demo.com',
-    password: 'Demo@123',
-    role: 'user',
-    bio: 'Full-stack developer passionate about React and Node.js. Love teaching web technologies!',
-    skillsOffered: ['React', 'Node.js', 'JavaScript', 'TypeScript'],
-    skillsWanted: ['UI/UX Design', 'Figma', 'Graphic Design'],
-    rating: 4.8,
-    profilePic: '',
-  },
-  {
-    _id: '2',
-    name: 'Maya Chen',
-    email: 'maya@demo.com',
-    password: 'Demo@123',
-    role: 'user',
-    bio: 'Creative designer with 5 years of experience. Looking to expand into development.',
-    skillsOffered: ['UI/UX Design', 'Figma', 'Photoshop', 'Illustration'],
-    skillsWanted: ['React', 'JavaScript', 'Python'],
-    rating: 4.6,
-    profilePic: '',
-  },
-  {
-    _id: '3',
-    name: 'Jordan Lee',
-    email: 'jordan@demo.com',
-    password: 'Demo@123',
-    role: 'user',
-    bio: 'Data science enthusiast and Python expert. Teaching machine learning concepts.',
-    skillsOffered: ['Python', 'Machine Learning', 'Data Science', 'SQL'],
-    skillsWanted: ['React', 'Mobile Development', 'DevOps'],
-    rating: 4.9,
-    profilePic: '',
-  },
-  {
-    _id: '4',
-    name: 'Sam Patel',
-    email: 'sam@demo.com',
-    password: 'Demo@123',
-    role: 'admin',
-    bio: 'Platform admin and DevOps engineer. Building systems that scale.',
-    skillsOffered: ['DevOps', 'Docker', 'AWS', 'CI/CD'],
-    skillsWanted: ['Machine Learning', 'Rust', 'Blockchain'],
-    rating: 4.7,
-    profilePic: '',
-  },
-  {
-    _id: '5',
-    name: 'Elena Gomez',
-    email: 'elena@demo.com',
-    password: 'Demo@123',
-    role: 'user',
-    bio: 'Mobile developer and Flutter enthusiast. Always eager to learn new frameworks.',
-    skillsOffered: ['Flutter', 'Dart', 'Mobile Development', 'Firebase'],
-    skillsWanted: ['Node.js', 'GraphQL', 'System Design'],
-    rating: 4.5,
-    profilePic: '',
-  },
-];
-
 const delay = (ms) => new Promise((res) => setTimeout(res, ms));
 
 export function AuthProvider({ children }) {
@@ -221,7 +158,6 @@ export function AuthProvider({ children }) {
     logout,
     updateProfile,
     applyUserUpdate,
-    MOCK_USERS,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

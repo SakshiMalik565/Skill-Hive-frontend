@@ -1,0 +1,66 @@
+.project-details-page {
+  padding: 110px 0 70px;
+}
+
+.project-details-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+
+.project-tasks {
+  margin-top: 16px;
+}
+
+.task-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 16px;
+}
+
+.task-card {
+  background: var(--bg-card);
+  border-radius: var(--radius-lg);
+  padding: 16px;
+  box-shadow: var(--shadow-md);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.task-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.task-status {
+  padding: 4px 10px;
+  border-radius: var(--radius-full);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.task-todo {
+  background: rgba(78, 205, 196, 0.15);
+  color: var(--teal-dark);
+}
+
+.task-in_progress {
+  background: rgba(255, 167, 38, 0.2);
+  color: var(--amber-dark);
+}
+
+.task-done {
+  background: rgba(52, 211, 153, 0.2);
+  color: var(--emerald);
+}
+
+.task-link {
+  color: var(--teal-dark);
+  font-weight: 600;
+}

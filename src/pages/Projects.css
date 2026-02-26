@@ -1,0 +1,83 @@
+.projects-page {
+  padding: 110px 0 70px;
+}
+
+.projects-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+
+.projects-search {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+  background: var(--bg-card);
+  border-radius: var(--radius-lg);
+  border: 1px solid rgba(78, 205, 196, 0.15);
+  margin-bottom: 24px;
+}
+
+.projects-search input {
+  border: none;
+  background: transparent;
+  width: 100%;
+  outline: none;
+}
+
+.projects-search-btn {
+  border: none;
+  background: var(--gradient-primary);
+  color: white;
+  padding: 8px 14px;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+}
+
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 16px;
+}
+
+.project-card {
+  background: var(--bg-card);
+  border-radius: var(--radius-lg);
+  padding: 18px;
+  box-shadow: var(--shadow-md);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.project-card-link {
+  color: var(--teal-dark);
+  font-weight: 600;
+}
+
+.projects-empty {
+  background: var(--bg-card);
+  padding: 24px;
+  border-radius: var(--radius-lg);
+  text-align: center;
+}
+
+.projects-pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  margin-top: 28px;
+}
+
+.projects-pagination button {
+  border: 1px solid rgba(78, 205, 196, 0.3);
+  background: transparent;
+  padding: 8px 16px;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+}
