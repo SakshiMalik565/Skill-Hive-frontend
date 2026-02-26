@@ -20,7 +20,7 @@ export default function SwapDetails() {
   const { id } = useParams();
   const navigate = useNavigate();
   const { user } = useAuth();
-  const { getSwapById, updateSwapStatus, addFeedback, fetchSwaps, swaps } = useSwaps();
+  const { getSwapById, updateSwapStatus, addFeedback, fetchSwaps, fetchSwapById, swaps } = useSwaps();
 
   const [loading, setLoading] = useState(false);
   const [feedbackText, setFeedbackText] = useState('');
@@ -28,8 +28,16 @@ export default function SwapDetails() {
   const [showFeedback, setShowFeedback] = useState(false);
 
   useEffect(() => {
-    if (swaps.length === 0) fetchSwaps();
+    if (swaps.length === 0) {
+      fetchSwaps();
+    }
   }, [swaps.length, fetchSwaps]);
+
+  useEffect(() => {
+    if (!getSwapById(id)) {
+      fetchSwapById(id);
+    }
+  }, [id, getSwapById, fetchSwapById]);
 
   const swap = getSwapById(id);
 

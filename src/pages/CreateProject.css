@@ -1,0 +1,14 @@
+.create-project-page {
+  padding: 110px 0 70px;
+}
+
+.create-project-card {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 32px;
+}
+
+.create-project-form {
+  display: grid;
+  gap: 18px;
+}

@@ -140,6 +140,28 @@
   border-top: 1px solid rgba(78, 205, 196, 0.08);
 }
 
+.swap-card-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.swap-card-delete {
+  border: 1px solid rgba(255, 107, 107, 0.35);
+  background: transparent;
+  color: var(--coral-dark);
+  padding: 6px 10px;
+  border-radius: var(--radius-sm);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+.swap-card-delete:hover {
+  background: rgba(255, 107, 107, 0.08);
+}
+
 .swap-card-user-info {
   display: flex;
   flex-direction: column;
