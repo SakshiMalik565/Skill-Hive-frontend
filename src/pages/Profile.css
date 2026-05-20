@@ -1,5 +1,5 @@
 .profile-page {
-  padding: 100px 0 60px;
+  padding: 100px 0 40px;
 }
 
 .profile-hero-card {
@@ -130,6 +130,44 @@
 
 .profile-section {
   margin-bottom: 24px;
+}
+
+/* ── Profile Tabs ── */
+.profile-tabs {
+  display: flex;
+  gap: 4px;
+  background: rgba(78, 205, 196, 0.06);
+  padding: 4px;
+  border-radius: var(--radius-lg);
+  margin-bottom: 24px;
+  overflow-x: auto;
+}
+
+.profile-tab {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 24px;
+  border: none;
+  background: transparent;
+  border-radius: var(--radius-md);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: var(--transition-normal);
+  white-space: nowrap;
+  font-family: var(--font-body);
+}
+
+.profile-tab:hover {
+  color: var(--text-primary);
+}
+
+.profile-tab.active {
+  color: var(--teal-dark);
+  background: var(--bg-card);
+  box-shadow: var(--shadow-sm);
 }
 
 .profile-section-title {

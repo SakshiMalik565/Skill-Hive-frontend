@@ -19,6 +19,26 @@
   z-index: 2;
 }
 
+.auth-container-centered {
+  grid-template-columns: 1fr;
+  max-width: 560px;
+}
+
+.auth-container-centered .auth-panel-left {
+  display: none;
+}
+
+.auth-container-centered .auth-panel-right {
+  padding: 56px 44px;
+  justify-content: center;
+}
+
+.auth-container-centered .auth-form-header,
+.auth-container-centered .auth-forgot,
+.auth-container-centered .auth-switch {
+  text-align: center;
+}
+
 .auth-panel-left {
   background: var(--bg-dark);
   padding: 48px 40px;

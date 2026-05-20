@@ -37,19 +37,14 @@ export default function SwapCard({ swap, index = 0, currentUserId }) {
     >
       <div className="swap-card-header">
         <div className="swap-card-users">
-          <div className="swap-card-avatar" style={{ background: getAvatarGradient(swap.requester._id) }}>
-            {getInitials(swap.requester.name)}
+          <div className="swap-card-avatar" style={{ background: getAvatarGradient(otherUser._id) }}>
+            {otherUser.profilePic ? (
+              <img src={otherUser.profilePic} alt={otherUser.name} className="swap-card-avatar-img" />
+            ) : (
+              getInitials(otherUser.name)
+            )}
           </div>
-          <motion.div
-            className="swap-card-arrow"
-            animate={{ x: [0, 4, 0] }}
-            transition={{ repeat: Infinity, duration: 1.5 }}
-          >
-            <HiOutlineSwitchHorizontal />
-          </motion.div>
-          <div className="swap-card-avatar" style={{ background: getAvatarGradient(swap.receiver._id) }}>
-            {getInitials(swap.receiver.name)}
-          </div>
+          <span className="swap-card-other-name">{otherUser.name}</span>
         </div>
         <span
           className="swap-card-status"

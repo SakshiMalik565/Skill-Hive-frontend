@@ -6,33 +6,75 @@
   z-index: 0;
 }
 
+.animated-bg--swap::before,
+.animated-bg--swap::after {
+  content: '';
+  position: absolute;
+  border: 1px dashed rgba(78, 205, 196, 0.25);
+  border-radius: 50%;
+  opacity: 0.8;
+  animation: swap-orbit 18s linear infinite;
+}
+
+.animated-bg--swap::before {
+  width: 520px;
+  height: 520px;
+  left: -120px;
+  top: -140px;
+}
+
+.animated-bg--swap::after {
+  width: 420px;
+  height: 420px;
+  right: -160px;
+  bottom: -140px;
+  animation-direction: reverse;
+}
+
 .animated-blob {
   position: absolute;
   border-radius: 50%;
-  filter: blur(60px);
+  filter: blur(90px);
+  opacity: 0.85;
+  mix-blend-mode: screen;
   will-change: transform;
   animation: morph 12s ease-in-out infinite;
+}
+
+.animated-bubble {
+  position: absolute;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.25);
+  box-shadow: 0 0 30px rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(2px);
+  will-change: transform, opacity;
+  mix-blend-mode: screen;
 }
 
 .animated-particle {
   position: absolute;
   bottom: -10px;
-  width: 6px;
-  height: 6px;
+  width: 12px;
+  height: 12px;
   border-radius: 50%;
   background: var(--teal);
   opacity: 0;
-  animation: particle-float 8s ease-in-out infinite;
+  animation: particle-float 10s ease-in-out infinite;
 }
 
 .animated-particle:nth-child(odd) {
   background: var(--coral);
-  width: 4px;
-  height: 4px;
+  width: 9px;
+  height: 9px;
 }
 
 .animated-particle:nth-child(3n) {
   background: var(--amber);
-  width: 8px;
-  height: 8px;
+  width: 14px;
+  height: 14px;
+}
+
+@keyframes swap-orbit {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }

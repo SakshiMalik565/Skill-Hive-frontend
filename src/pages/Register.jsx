@@ -120,9 +120,9 @@ export default function Register() {
   return (
     <AnimatedPage>
       <section className="auth-page">
-        <AnimatedBackground variant="minimal" />
+        <AnimatedBackground variant="swap" />
 
-        <div className="auth-container">
+        <div className="auth-container auth-container-centered">
           {/* Left panel */}
           <motion.div
             className="auth-panel-left auth-panel-left-register"
@@ -138,15 +138,6 @@ export default function Register() {
               >
                 <HiOutlineSwitchHorizontal />
               </motion.div>
-              <h2>Join SkillSwap</h2>
-              <p>Create your account and start exchanging skills with learners worldwide.</p>
-
-              <div className="auth-panel-features">
-                <div className="auth-feature">🎯 Share skills you love</div>
-                <div className="auth-feature">📚 Learn from real people</div>
-                <div className="auth-feature">🤝 Build learning connections</div>
-                <div className="auth-feature">💯 Completely free forever</div>
-              </div>
             </div>
           </motion.div>
 

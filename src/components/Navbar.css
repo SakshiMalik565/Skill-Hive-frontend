@@ -6,15 +6,15 @@
   z-index: 1000;
   padding: 16px 0;
   transition: var(--transition-normal);
-  background: rgba(255, 248, 240, 0.8);
+  background: var(--navbar-bg);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
 }
 
 .navbar-scrolled {
   padding: 10px 0;
-  box-shadow: 0 2px 20px rgba(255, 107, 107, 0.08);
-  background: rgba(255, 248, 240, 0.95);
+  box-shadow: var(--shadow-sm);
+  background: var(--navbar-bg-scrolled);
 }
 
 .navbar-container {
@@ -60,6 +60,35 @@
   display: flex;
   align-items: center;
   gap: 8px;
+  margin-left: auto;
+}
+
+.navbar-theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid rgba(78, 205, 196, 0.2);
+  background: rgba(78, 205, 196, 0.08);
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: var(--transition-normal);
+}
+
+.navbar-theme-toggle:hover {
+  background: rgba(78, 205, 196, 0.18);
+  transform: translateY(-1px);
+}
+
+.navbar-theme-toggle-mobile {
+  width: auto;
+  border-radius: var(--radius-md);
+  padding: 12px 16px;
+  justify-content: flex-start;
+  gap: 10px;
+  margin-top: 6px;
 }
 
 .navbar-link {
@@ -158,8 +187,73 @@
   font-family: var(--font-body);
 }
 
+.sidebar {
+  position: fixed;
+  top: 88px;
+  left: 0;
+  bottom: 0;
+  width: 240px;
+  background: var(--bg-card);
+  border-right: 1px solid rgba(78, 205, 196, 0.12);
+  padding: 24px 18px;
+  box-shadow: var(--shadow-sm);
+  z-index: 900;
+}
+
+.sidebar-header {
+  font-size: 12px;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  color: var(--text-light);
+  margin-bottom: 16px;
+  padding-left: 10px;
+}
+
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.sidebar-link {
+  display: flex;
+  align-items: center;
+  padding: 10px 14px;
+  border-radius: var(--radius-md);
+  color: var(--text-secondary);
+  font-weight: 600;
+  font-size: 15px;
+  transition: var(--transition-normal);
+}
+
+.sidebar-link:hover {
+  color: var(--text-primary);
+  background: rgba(78, 205, 196, 0.1);
+}
+
+.sidebar-link-active {
+  color: var(--teal-dark);
+  background: rgba(78, 205, 196, 0.18);
+}
+
+.sidebar-unread-badge {
+  margin-left: auto;
+  background: var(--coral);
+  color: white;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+  min-width: 20px;
+  text-align: center;
+}
+
 @media (max-width: 768px) {
   .navbar-links-desktop {
+    display: none;
+  }
+
+  .sidebar {
     display: none;
   }
 

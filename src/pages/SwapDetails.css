@@ -1,5 +1,5 @@
 .swap-details-page {
-  padding: 100px 0 60px;
+  padding: 100px 0 40px;
 }
 
 .swap-details-header {
@@ -135,8 +135,13 @@
   font-weight: 700;
 }
 
-.sd-skill-coral h3 { color: var(--coral-dark); }
-.sd-skill-teal h3 { color: var(--teal-dark); }
+.sd-skill-coral h3 {
+  color: var(--coral-dark);
+}
+
+.sd-skill-teal h3 {
+  color: var(--teal-dark);
+}
 
 .sd-skill-divider {
   font-size: 24px;
@@ -159,7 +164,7 @@
   border-radius: var(--radius-md);
 }
 
-.sd-meta-item > svg {
+.sd-meta-item>svg {
   color: var(--teal);
   font-size: 18px;
   margin-top: 2px;

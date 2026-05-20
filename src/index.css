@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 :root {
   --coral: #FF6B6B;
   --coral-dark: #E85D5D;
@@ -27,6 +31,9 @@
   --gradient-sunset: linear-gradient(135deg, #FF6B6B 0%, #FFE66D 50%, #4ECDC4 100%);
   --gradient-hero: linear-gradient(160deg, #FFF8F0 0%, #FFE8E8 30%, #E8FFF7 70%, #FFF8F0 100%);
 
+  --navbar-bg: rgba(255, 248, 240, 0.8);
+  --navbar-bg-scrolled: rgba(255, 248, 240, 0.95);
+
   --shadow-sm: 0 2px 8px rgba(255, 107, 107, 0.08);
   --shadow-md: 0 4px 20px rgba(255, 107, 107, 0.12);
   --shadow-lg: 0 8px 40px rgba(255, 107, 107, 0.16);
@@ -47,6 +54,34 @@
 
   --font-heading: 'Poppins', sans-serif;
   --font-body: 'Inter', sans-serif;
+}
+
+[data-theme="dark"] {
+  --bg-primary: #0B1220;
+  --bg-secondary: #101827;
+  --bg-card: #172337;
+  --bg-dark: #070D18;
+
+  --text-primary: #F8FAFC;
+  --text-secondary: #C7D2E8;
+  --text-light: #94A3B8;
+  --text-on-dark: #F8FAFC;
+
+  --gradient-primary: linear-gradient(135deg, #FF7A7A 0%, #64D9D0 100%);
+  --gradient-warm: linear-gradient(135deg, #FFE08A 0%, #FF7A7A 100%);
+  --gradient-cool: linear-gradient(135deg, #64D9D0 0%, #6AA8FF 100%);
+  --gradient-sunset: linear-gradient(135deg, #FF7A7A 0%, #FFE08A 50%, #64D9D0 100%);
+  --gradient-hero: linear-gradient(160deg, #0B1220 0%, #14233A 35%, #0F2D33 70%, #0B1220 100%);
+
+  --shadow-sm: 0 2px 8px rgba(5, 10, 18, 0.35);
+  --shadow-md: 0 4px 20px rgba(5, 10, 18, 0.45);
+  --shadow-lg: 0 8px 40px rgba(5, 10, 18, 0.55);
+  --shadow-xl: 0 16px 60px rgba(5, 10, 18, 0.6);
+  --shadow-teal: 0 4px 20px rgba(78, 205, 196, 0.2);
+  --shadow-coral: 0 4px 20px rgba(255, 107, 107, 0.2);
+
+  --navbar-bg: rgba(11, 18, 32, 0.7);
+  --navbar-bg-scrolled: rgba(11, 18, 32, 0.92);
 }
 
 *,
@@ -70,6 +105,24 @@ body {
   line-height: 1.6;
   overflow-x: hidden;
   min-height: 100vh;
+}
+
+.app {
+  min-height: 100vh;
+}
+
+.main-content {
+  padding-top: 88px;
+}
+
+.app--sidebar .main-content {
+  padding-left: 240px;
+}
+
+@media (max-width: 1024px) {
+  .app--sidebar .main-content {
+    padding-left: 0;
+  }
 }
 
 h1, h2, h3, h4, h5, h6 {

@@ -11,11 +11,7 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import ForgotPassword from './pages/ForgotPassword';
 import Dashboard from './pages/Dashboard';
-import Projects from './pages/Projects';
-import CreateProject from './pages/CreateProject';
-import ProjectDetails from './pages/ProjectDetails';
-import CreateTask from './pages/CreateTask';
-import EditTask from './pages/EditTask';
+import Schedule from './pages/Schedule';
 import Profile from './pages/Profile';
 import CreateSwap from './pages/CreateSwap';
 import SwapDetails from './pages/SwapDetails';
@@ -25,7 +21,8 @@ import NotFound from './pages/NotFound';
 
 export default function App() {
   const location = useLocation();
-  const { isLoading } = useAuth();
+  const { isLoading, isAuthenticated } = useAuth();
+  const showFooter = location.pathname === '/';
 
   if (isLoading) {
     return <LoadingSpinner fullScreen text="Loading SkillSwap..." />;
@@ -33,7 +30,7 @@ export default function App() {
 
   return (
     <SwapProvider>
-      <div className="app">
+      <div className={`app ${isAuthenticated ? 'app--sidebar' : ''}`}>
         <Navbar />
         <main className="main-content">
           <AnimatePresence mode="wait">
@@ -60,42 +57,10 @@ export default function App() {
                 }
               />
               <Route
-                path="/projects"
+                path="/schedule"
                 element={
                   <ProtectedRoute>
-                    <Projects />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/projects/new"
-                element={
-                  <ProtectedRoute>
-                    <CreateProject />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/projects/:id"
-                element={
-                  <ProtectedRoute>
-                    <ProjectDetails />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/projects/:id/tasks/new"
-                element={
-                  <ProtectedRoute>
-                    <CreateTask />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/tasks/:id/edit"
-                element={
-                  <ProtectedRoute>
-                    <EditTask />
+                    <Schedule />
                   </ProtectedRoute>
                 }
               />
@@ -144,7 +109,7 @@ export default function App() {
             </Routes>
           </AnimatePresence>
         </main>
-        <Footer />
+        {showFooter && <Footer />}
       </div>
     </SwapProvider>
   );

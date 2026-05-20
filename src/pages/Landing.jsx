@@ -63,25 +63,6 @@ const steps = [
   { num: '04', title: 'Learn & Grow', desc: 'Exchange knowledge, rate your partner, and build your network.', icon: <FiStar /> },
 ];
 
-const stats = [
-  { value: '2,500+', label: 'Active Users' },
-  { value: '8,000+', label: 'Skills Swapped' },
-  { value: '4.8', label: 'Avg Rating' },
-  { value: '150+', label: 'Skills Available' },
-];
-
-function AnimatedCounter({ value }) {
-  return (
-    <motion.span
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
-    >
-      {value}
-    </motion.span>
-  );
-}
-
 function SectionTitle({ badge, title, subtitle }) {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, amount: 0.3 });
@@ -89,7 +70,7 @@ function SectionTitle({ badge, title, subtitle }) {
   return (
     <motion.div
       ref={ref}
-      className="section-header"
+      className="section-header mx-auto max-w-2xl text-balance"
       initial={{ opacity: 0, y: 30 }}
       animate={isInView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.6 }}
@@ -110,34 +91,38 @@ export default function Landing() {
   return (
     <AnimatedPage>
       {/* ===== HERO ===== */}
-      <section className="hero-section" ref={heroRef}>
+      <section className="hero-section relative isolate py-24 sm:py-28" ref={heroRef}>
         <AnimatedBackground variant="hero" />
         <motion.div
-          className="hero-content container"
+          className="hero-content container gap-16 lg:gap-20"
           style={{ y: heroY, opacity: heroOpacity }}
         >
           <motion.div
-            className="hero-text"
+            className="hero-text max-w-xl"
             variants={stagger}
             initial="hidden"
             animate="show"
           >
-            <motion.div variants={fadeUp} className="hero-badge">
+            <motion.div variants={fadeUp} className="hero-badge shadow-sm backdrop-blur-sm tracking-wide">
               <FiZap className="hero-badge-icon" />
               <span>The Future of Peer Learning</span>
             </motion.div>
 
-            <motion.h1 variants={fadeUp} className="hero-title">
-              Exchange <span className="gradient-text">Skills</span>,{' '}
-              <br />Not <span className="gradient-text-warm">Money</span>
+            <motion.h1 variants={fadeUp} className="hero-title drop-shadow-[0_12px_30px_rgba(15,23,42,0.12)] tracking-tight">
+              <span className="hero-title-top">Exchange</span>{' '}
+              <span className="gradient-text hero-title-glow">Skills</span>,
+              <br />
+              <span className="hero-title-bottom">
+                Not <span className="gradient-text-warm hero-title-glow">Money</span>
+              </span>
             </motion.h1>
 
-            <motion.p variants={fadeUp} className="hero-desc">
+            <motion.p variants={fadeUp} className="hero-desc text-base sm:text-lg text-balance">
               Connect with talented people worldwide. Teach what you know,
               learn what you love — completely free.
             </motion.p>
 
-            <motion.div variants={fadeUp} className="hero-actions">
+            <motion.div variants={fadeUp} className="hero-actions items-center gap-4">
               <Link to="/register">
                 <Button variant="primary" size="lg" icon={<FiArrowRight />}>
                   Start Swapping
@@ -150,77 +135,52 @@ export default function Landing() {
               </Link>
             </motion.div>
 
-            <motion.div variants={fadeUp} className="hero-trusted">
-              <div className="hero-avatars">
-                {['A', 'M', 'J', 'S', 'E'].map((letter, i) => (
-                  <motion.div
-                    key={letter}
-                    className="hero-mini-avatar"
-                    style={{ zIndex: 5 - i, marginLeft: i > 0 ? -10 : 0 }}
-                    initial={{ opacity: 0, scale: 0 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ delay: 0.8 + i * 0.1 }}
-                  >
-                    {letter}
-                  </motion.div>
-                ))}
-              </div>
-              <span>Trusted by <strong>2,500+</strong> learners</span>
-            </motion.div>
           </motion.div>
 
           {/* Hero Illustration */}
           <motion.div
-            className="hero-illustration"
+            className="hero-illustration relative"
             initial={{ opacity: 0, x: 60, scale: 0.9 }}
             animate={{ opacity: 1, x: 0, scale: 1 }}
             transition={{ duration: 0.8, delay: 0.3 }}
           >
-            <div className="hero-card-stack">
+            <div className="hero-card-stack drop-shadow-2xl">
               <motion.div
-                className="hero-float-card hero-float-card-1"
+                className="hero-float-card hero-float-card-1 backdrop-blur-md shadow-xl"
                 animate={{ y: [0, -10, 0] }}
                 transition={{ repeat: Infinity, duration: 3 }}
               >
-                <div className="hero-fc-icon" style={{ background: 'rgba(255,107,107,0.12)' }}>⚛️</div>
+                <div className="hero-fc-icon" style={{ background: 'rgba(255,107,107,0.12)' }}>🎸</div>
                 <div>
-                  <strong>React</strong>
-                  <span>Web Development</span>
+                  <strong>Guitar</strong>
+                  <span>Acoustic Basics</span>
                 </div>
               </motion.div>
 
               <motion.div
-                className="hero-float-card hero-float-card-2"
+                className="hero-float-card hero-float-card-2 backdrop-blur-md shadow-xl"
                 animate={{ y: [0, 10, 0] }}
                 transition={{ repeat: Infinity, duration: 3.5, delay: 0.5 }}
               >
-                <div className="hero-fc-icon" style={{ background: 'rgba(78,205,196,0.12)' }}>🎨</div>
+                <div className="hero-fc-icon" style={{ background: 'rgba(78,205,196,0.12)' }}>🍞</div>
                 <div>
-                  <strong>UI/UX Design</strong>
-                  <span>Figma Expert</span>
+                  <strong>Home Baking</strong>
+                  <span>Sourdough Starter</span>
                 </div>
               </motion.div>
 
               <motion.div
-                className="hero-float-card hero-float-card-3"
+                className="hero-float-card hero-float-card-3 backdrop-blur-md shadow-xl"
                 animate={{ y: [0, -8, 0] }}
                 transition={{ repeat: Infinity, duration: 2.8, delay: 1 }}
               >
-                <div className="hero-fc-icon" style={{ background: 'rgba(255,230,109,0.2)' }}>🐍</div>
+                <div className="hero-fc-icon" style={{ background: 'rgba(255,230,109,0.2)' }}>🗣️</div>
                 <div>
-                  <strong>Python</strong>
-                  <span>Machine Learning</span>
+                  <strong>Public Speaking</strong>
+                  <span>Pitch Practice</span>
                 </div>
               </motion.div>
 
-              {/* Arrow animation between cards */}
-              <motion.div
-                className="hero-swap-arrows"
-                animate={{ rotate: [0, 360] }}
-                transition={{ repeat: Infinity, duration: 4, ease: 'linear' }}
-              >
-                <HiOutlineSwitchHorizontal />
-              </motion.div>
             </div>
           </motion.div>
         </motion.div>
@@ -237,32 +197,8 @@ export default function Landing() {
         </motion.div>
       </section>
 
-      {/* ===== STATS ===== */}
-      <section className="stats-section">
-        <div className="container">
-          <div className="stats-grid">
-            {stats.map((stat, i) => (
-              <motion.div
-                key={stat.label}
-                className="stat-card"
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: i * 0.1 }}
-                viewport={{ once: true }}
-                whileHover={{ scale: 1.05 }}
-              >
-                <span className="stat-value">
-                  <AnimatedCounter value={stat.value} />
-                </span>
-                <span className="stat-label">{stat.label}</span>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* ===== FEATURES ===== */}
-      <section className="features-section">
+      <section className="features-section relative py-24 sm:py-28">
         <div className="container">
           <SectionTitle
             badge="✨ Features"
@@ -271,7 +207,7 @@ export default function Landing() {
           />
 
           <motion.div
-            className="features-grid"
+            className="features-grid gap-8 sm:gap-10"
             variants={stagger}
             initial="hidden"
             whileInView="show"
@@ -280,11 +216,11 @@ export default function Landing() {
             {features.map((f, i) => (
               <motion.div
                 key={i}
-                className="feature-card"
+                className="feature-card group relative overflow-hidden transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl"
                 variants={fadeUp}
                 whileHover={{ y: -8, boxShadow: '0 16px 48px rgba(0,0,0,0.08)' }}
               >
-                <div className="feature-icon-wrap" style={{ background: f.bg, color: f.color }}>
+                <div className="feature-icon-wrap shadow-md ring-1 ring-black/5" style={{ background: f.bg, color: f.color }}>
                   {f.icon}
                 </div>
                 <h3>{f.title}</h3>
@@ -298,7 +234,7 @@ export default function Landing() {
       </section>
 
       {/* ===== HOW IT WORKS ===== */}
-      <section className="steps-section">
+      <section className="steps-section relative py-24 sm:py-28">
         <AnimatedBackground variant="minimal" />
         <div className="container" style={{ position: 'relative', zIndex: 1 }}>
           <SectionTitle
@@ -307,11 +243,11 @@ export default function Landing() {
             subtitle="It's simple, fast, and completely free."
           />
 
-          <div className="steps-grid">
+          <div className="steps-grid gap-8 lg:gap-10">
             {steps.map((step, i) => (
               <motion.div
                 key={step.num}
-                className="step-card"
+                className="step-card group relative overflow-hidden transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl"
                 initial={{ opacity: 0, y: 40 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.15 }}
@@ -330,10 +266,10 @@ export default function Landing() {
       </section>
 
       {/* ===== CTA ===== */}
-      <section className="cta-section">
+      <section className="cta-section relative py-20 sm:py-24">
         <div className="container">
           <motion.div
-            className="cta-card"
+            className="cta-card rounded-3xl shadow-2xl overflow-hidden ring-1 ring-white/10"
             initial={{ opacity: 0, scale: 0.95 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
@@ -342,7 +278,7 @@ export default function Landing() {
             <AnimatedBackground variant="minimal" />
             <div className="cta-content">
               <motion.div
-                className="cta-icon"
+                className="cta-icon drop-shadow-md"
                 animate={{ rotate: [0, 10, -10, 0] }}
                 transition={{ repeat: Infinity, duration: 3 }}
               >

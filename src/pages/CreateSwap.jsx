@@ -140,13 +140,6 @@ export default function CreateSwap() {
             </button>
 
             <div className="create-swap-header">
-              <motion.div
-                className="create-swap-icon"
-                animate={{ rotate: [0, 15, -15, 0] }}
-                transition={{ repeat: Infinity, duration: 3 }}
-              >
-                <HiOutlineSwitchHorizontal />
-              </motion.div>
               <h1 className="page-title">Create <span className="gradient-text">Swap Request</span></h1>
               <p className="page-subtitle">Propose a skill exchange with another learner</p>
             </div>
@@ -273,10 +266,6 @@ export default function CreateSwap() {
                     <option key={s} value={s}>{s}</option>
                   ))}
                 </select>
-              </div>
-
-              <div className="swap-arrow-center">
-                <HiOutlineSwitchHorizontal />
               </div>
 
               <div className="form-group">

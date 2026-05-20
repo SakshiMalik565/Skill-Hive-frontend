@@ -40,9 +40,9 @@ export default function Login() {
   return (
     <AnimatedPage>
       <section className="auth-page">
-        <AnimatedBackground variant="minimal" />
+        <AnimatedBackground variant="swap" />
 
-        <div className="auth-container">
+        <div className="auth-container auth-container-centered">
           {/* Left panel */}
           <motion.div
             className="auth-panel-left"
@@ -60,12 +60,6 @@ export default function Login() {
               </motion.div>
               <h2>Welcome Back!</h2>
               <p>Sign in to continue swapping skills and growing your network.</p>
-
-              <div className="auth-panel-features">
-                <div className="auth-feature">✨ 2,500+ active learners</div>
-                <div className="auth-feature">🔄 8,000+ skills exchanged</div>
-                <div className="auth-feature">⭐ 4.8 average rating</div>
-              </div>
             </div>
           </motion.div>
 

@@ -53,11 +53,6 @@ export default function Dashboard() {
               <p className="page-subtitle">Here's an overview of your skill swaps</p>
             </div>
             <div className="dashboard-actions">
-              <Link to="/inbox">
-                <Button variant="teal" icon={<FiInbox />}>
-                  Inbox
-                </Button>
-              </Link>
               <Link to="/create-swap">
                 <Button variant="primary" icon={<FiPlusCircle />}>
                   New Swap

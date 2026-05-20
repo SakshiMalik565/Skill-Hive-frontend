@@ -1,5 +1,23 @@
 .dashboard-page {
-  padding: 100px 0 60px;
+  padding: 100px 0 24px;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.dashboard-page>.container {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.dashboard-swaps {
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
 }
 
 .dashboard-header {
@@ -71,8 +89,9 @@
   background: rgba(78, 205, 196, 0.06);
   padding: 4px;
   border-radius: var(--radius-lg);
-  margin-bottom: 28px;
+  margin-bottom: 16px;
   overflow-x: auto;
+  flex-shrink: 0;
 }
 
 .dashboard-tab {

@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
-import { FiInbox, FiSend, FiSearch, FiPlus, FiCheck, FiCheckCircle, FiMessageSquare } from 'react-icons/fi';
+import { useNavigate } from 'react-router-dom';
+import { FiSend, FiSearch, FiPlus, FiCheck, FiCheckCircle, FiMessageSquare, FiX, FiPaperclip } from 'react-icons/fi';
 import AnimatedPage from '../components/AnimatedPage';
 import Button from '../components/Button';
 import LoadingSpinner from '../components/LoadingSpinner';
@@ -9,8 +10,6 @@ import { useChat } from '../context/ChatContext';
 import chatService from '../services/chatService';
 import toast from 'react-hot-toast';
 import './Inbox.css';
-
-const reactionOptions = [':)', '<3', ':+1:'];
 
 const formatTime = (value) => {
   if (!value) return '';
@@ -33,6 +32,7 @@ const getInitials = (value) => {
 
 export default function Inbox() {
   const { user } = useAuth();
+  const navigate = useNavigate();
   const {
     socket,
     isConnected,
@@ -55,6 +55,10 @@ export default function Inbox() {
   const [typingByConversation, setTypingByConversation] = useState({});
   const [recipientEmail, setRecipientEmail] = useState('');
   const [isCreating, setIsCreating] = useState(false);
+  const [showSearch, setShowSearch] = useState(false);
+  const [showCreate, setShowCreate] = useState(false);
+
+  const fileInputRef = useRef(null);
 
   const typingTimeoutRef = useRef(null);
   const typingClearTimers = useRef({});
@@ -113,10 +117,10 @@ export default function Inbox() {
         prev.map((conv) =>
           conv._id === message.conversation
             ? {
-                ...conv,
-                lastMessage: message,
-                unreadCount: conv._id === activeConversationId ? 0 : (conv.unreadCount || 0) + 1,
-              }
+              ...conv,
+              lastMessage: message,
+              unreadCount: conv._id === activeConversationId ? 0 : (conv.unreadCount || 0) + 1,
+            }
             : conv
         )
       );
@@ -248,6 +252,11 @@ export default function Inbox() {
     const trimmed = draft.trim();
     setDraft('');
 
+    // Stop typing indicator when sending
+    if (activeConversation?.participant?._id) {
+      emitTypingStop(activeConversation.participant._id, activeConversation._id);
+    }
+
     if (isConnected && socket) {
       socket.emit('message:send', {
         conversationId: activeConversation._id,
@@ -327,38 +336,59 @@ export default function Inbox() {
             <div className="inbox-header">
               <div>
                 <h1>Inbox</h1>
-                <p>Messages and requests</p>
               </div>
-              <FiInbox className="inbox-icon" />
+              <div className="inbox-header-actions">
+                <button
+                  className={`inbox-icon-btn ${showSearch ? 'active' : ''}`}
+                  onClick={() => { setShowSearch((p) => !p); setShowCreate(false); }}
+                  title="Search conversations"
+                >
+                  {showSearch ? <FiX /> : <FiSearch />}
+                </button>
+                <button
+                  className={`inbox-icon-btn ${showCreate ? 'active' : ''}`}
+                  onClick={() => { setShowCreate((p) => !p); setShowSearch(false); }}
+                  title="New conversation"
+                >
+                  {showCreate ? <FiX /> : <FiPlus />}
+                </button>
+              </div>
             </div>
 
-            <div className="inbox-search">
-              <FiSearch />
-              <input
-                type="text"
-                placeholder="Search conversations"
-                value={searchTerm}
-                onChange={(event) => setSearchTerm(event.target.value)}
-              />
-            </div>
+            {showSearch && (
+              <div className="inbox-inline-input">
+                <FiSearch />
+                <input
+                  type="text"
+                  placeholder="Search conversations..."
+                  value={searchTerm}
+                  onChange={(event) => setSearchTerm(event.target.value)}
+                  autoFocus
+                />
+              </div>
+            )}
 
-            <div className="inbox-create">
-              <input
-                type="email"
-                placeholder="Start chat by email"
-                value={recipientEmail}
-                onChange={(event) => setRecipientEmail(event.target.value)}
-              />
-              <Button
-                variant="teal"
-                size="sm"
-                icon={<FiPlus />}
-                onClick={handleCreateConversation}
-                loading={isCreating}
-              >
-                New
-              </Button>
-            </div>
+            {showCreate && (
+              <div className="inbox-inline-input">
+                <input
+                  type="email"
+                  placeholder="Enter email to start chat..."
+                  value={recipientEmail}
+                  onChange={(event) => setRecipientEmail(event.target.value)}
+                  onKeyDown={(e) => e.key === 'Enter' && handleCreateConversation()}
+                  autoFocus
+                />
+                <Button
+                  variant="teal"
+                  size="sm"
+                  icon={<FiPlus />}
+                  onClick={handleCreateConversation}
+                  loading={isCreating}
+                >
+                  Go
+                </Button>
+              </div>
+            )}
 
             <div className="conversation-list">
               {filteredConversations.length === 0 ? (
@@ -418,13 +448,22 @@ export default function Inbox() {
             ) : (
               <>
                 <header className="chat-header">
-                  <div>
-                    <h2>{activeConversation.participant?.name || activeConversation.participant?.email}</h2>
-                    <p>
-                      {onlineUsers.has(activeConversation.participant?._id)
-                        ? 'Online'
-                        : formatLastSeen(lastSeen[activeConversation.participant?._id])}
-                    </p>
+                  <div className="chat-header-user" onClick={() => navigate(`/profile/${activeConversation.participant?._id}`)} style={{ cursor: 'pointer' }}>
+                    <div className="chat-header-avatar">
+                      {activeConversation.participant?.profilePic ? (
+                        <img src={activeConversation.participant.profilePic} alt={activeConversation.participant?.name || 'User'} />
+                      ) : (
+                        <span>{getInitials(activeConversation.participant?.name || activeConversation.participant?.email)}</span>
+                      )}
+                    </div>
+                    <div>
+                      <h2>{activeConversation.participant?.name || activeConversation.participant?.email}</h2>
+                      <p>
+                        {onlineUsers.has(activeConversation.participant?._id)
+                          ? 'Online'
+                          : formatLastSeen(lastSeen[activeConversation.participant?._id])}
+                      </p>
+                    </div>
                   </div>
                   <div className="chat-status">
                     <span className={`connection-pill ${isConnected ? 'online' : 'offline'}`}>
@@ -433,7 +472,6 @@ export default function Inbox() {
                     {!isConnected && connectionError && (
                       <span className="connection-error">{connectionError}</span>
                     )}
-                    {typingByConversation[activeConversationId] && <span>Typing...</span>}
                   </div>
                 </header>
 
@@ -464,32 +502,13 @@ export default function Inbox() {
                         )}
                         <div className={`message-bubble ${isMine ? 'mine' : 'theirs'}`}>
                           <div className="message-text">{message.text}</div>
-                          <div className="message-meta">
-                            <span>{formatTime(message.createdAt)}</span>
-                            {isMine && (
+                          {isMine && (
+                            <div className="message-meta">
                               <span className={`message-status ${message.status}`}>
                                 {message.status === 'read' ? <FiCheckCircle /> : <FiCheck />}
                               </span>
-                            )}
-                          </div>
-                          <div className="message-reactions">
-                            {message.reactions?.map((reaction) => (
-                              <span key={`${message._id}-${reaction.user}`} className="reaction-chip">
-                                {reaction.emoji}
-                              </span>
-                            ))}
-                            <div className="reaction-picker">
-                              {reactionOptions.map((option) => (
-                                <button
-                                  key={option}
-                                  type="button"
-                                  onClick={() => handleReaction(message._id, option)}
-                                >
-                                  {option}
-                                </button>
-                              ))}
                             </div>
-                          </div>
+                          )}
                         </div>
                         {isMine && (
                           <div className="message-avatar">
@@ -503,9 +522,35 @@ export default function Inbox() {
                       </motion.div>
                     );
                   })}
+                  {typingByConversation[activeConversationId] && (
+                    <div className="typing-indicator">
+                      <span className="typing-dot" />
+                      <span className="typing-dot" />
+                      <span className="typing-dot" />
+                    </div>
+                  )}
                 </div>
 
                 <div className="chat-input">
+                  <input
+                    type="file"
+                    ref={fileInputRef}
+                    style={{ display: 'none' }}
+                    onChange={(e) => {
+                      const file = e.target.files?.[0];
+                      if (file) {
+                        toast.success(`Selected: ${file.name} (file sending coming soon)`);
+                        e.target.value = '';
+                      }
+                    }}
+                  />
+                  <button
+                    className="chat-attach-btn"
+                    onClick={() => fileInputRef.current?.click()}
+                    title="Attach file"
+                  >
+                    <FiPaperclip />
+                  </button>
                   <input
                     type="text"
                     placeholder="Type your message"

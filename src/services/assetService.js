@@ -9,8 +9,11 @@ const createAsset = (payload) => {
   });
 };
 
+const deleteAsset = (assetId) => API.delete(`/assets/${assetId}`);
+
 export default {
   getAssets,
   getMyAssets,
   createAsset,
+  deleteAsset,
 };

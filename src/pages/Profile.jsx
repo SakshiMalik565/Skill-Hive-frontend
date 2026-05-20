@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FiEdit2, FiSave, FiX, FiPlus, FiStar, FiMail, FiUser } from 'react-icons/fi';
+import { FiEdit2, FiSave, FiX, FiPlus, FiStar, FiMail, FiUser, FiGrid, FiClock } from 'react-icons/fi';
 import { useParams } from 'react-router-dom';
 import AnimatedPage from '../components/AnimatedPage';
 import Button from '../components/Button';
@@ -29,6 +29,7 @@ export default function Profile() {
   const { id } = useParams();
   const { getUserSwaps } = useSwaps();
   const [isEditing, setIsEditing] = useState(false);
+  const [profileTab, setProfileTab] = useState('about');
   const [loading, setLoading] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [viewedUser, setViewedUser] = useState(null);
@@ -270,179 +271,201 @@ export default function Profile() {
             </div>
           </motion.div>
 
-          {/* Bio Section */}
-          <motion.div
-            className="profile-section card"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-          >
-            <h2 className="profile-section-title">
-              <FiUser /> About
-            </h2>
-            {isEditing ? (
-              <textarea
-                className="form-input profile-bio-input"
-                value={editData.bio}
-                onChange={(e) => setEditData({ ...editData, bio: e.target.value })}
-                placeholder="Write something about yourself..."
-                rows={4}
-              />
-            ) : (
-              <p className="profile-bio">
-                {displayData?.bio || 'No bio added yet. Click edit to add one!'}
-              </p>
+          {/* Profile Tabs */}
+          <div className="profile-tabs">
+            <button
+              className={`profile-tab ${profileTab === 'about' ? 'active' : ''}`}
+              onClick={() => setProfileTab('about')}
+            >
+              <FiUser /> About & Skills
+            </button>
+            {isOwner && (
+              <button
+                className={`profile-tab ${profileTab === 'assets' ? 'active' : ''}`}
+                onClick={() => setProfileTab('assets')}
+              >
+                <FiGrid /> My Assets
+              </button>
             )}
-          </motion.div>
-
-          {/* Skills Section */}
-          <div className="profile-skills-grid">
-            {/* Skills Offered */}
-            <motion.div
-              className="profile-section card"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 }}
+            <button
+              className={`profile-tab ${profileTab === 'history' ? 'active' : ''}`}
+              onClick={() => setProfileTab('history')}
             >
-              <h2 className="profile-section-title" style={{ color: 'var(--coral-dark)' }}>
-                🎯 Skills I Can Teach
-              </h2>
-              <div className="skill-tags-list">
-                <AnimatePresence>
-                  {(displayData?.skillsOffered || []).map((skill, i) => (
-                    <SkillTag
-                      key={skill}
-                      skill={skill}
-                      variant="coral"
-                      index={i}
-                      removable={isEditing}
-                      onRemove={() => removeSkill('offered', skill)}
-                    />
-                  ))}
-                </AnimatePresence>
-                {(displayData?.skillsOffered || []).length === 0 && (
-                  <p className="no-skills">No skills added yet</p>
-                )}
-              </div>
-              {isEditing && (
-                <div className="add-skill-row">
-                  <input
-                    type="text"
-                    className="form-input add-skill-input"
-                    placeholder="Type a skill or select below..."
-                    value={newSkillOffered}
-                    onChange={(e) => setNewSkillOffered(e.target.value)}
-                    onKeyDown={(e) => e.key === 'Enter' && (e.preventDefault(), addSkill('offered'))}
-                    list="skill-suggestions-offered"
-                  />
-                  <datalist id="skill-suggestions-offered">
-                    {SKILL_SUGGESTIONS.filter((s) => !editData.skillsOffered.includes(s)).map((s) => (
-                      <option key={s} value={s} />
-                    ))}
-                  </datalist>
-                  <Button variant="coral" size="sm" onClick={() => addSkill('offered')} icon={<FiPlus />}>
-                    Add
-                  </Button>
-                </div>
-              )}
-            </motion.div>
-
-            {/* Skills Wanted */}
-            <motion.div
-              className="profile-section card"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3 }}
-            >
-              <h2 className="profile-section-title" style={{ color: 'var(--teal-dark)' }}>
-                📚 Skills I Want to Learn
-              </h2>
-              <div className="skill-tags-list">
-                <AnimatePresence>
-                  {(displayData?.skillsWanted || []).map((skill, i) => (
-                    <SkillTag
-                      key={skill}
-                      skill={skill}
-                      variant="teal"
-                      index={i}
-                      removable={isEditing}
-                      onRemove={() => removeSkill('wanted', skill)}
-                    />
-                  ))}
-                </AnimatePresence>
-                {(displayData?.skillsWanted || []).length === 0 && (
-                  <p className="no-skills">No skills added yet</p>
-                )}
-              </div>
-              {isEditing && (
-                <div className="add-skill-row">
-                  <input
-                    type="text"
-                    className="form-input add-skill-input"
-                    placeholder="Type a skill or select below..."
-                    value={newSkillWanted}
-                    onChange={(e) => setNewSkillWanted(e.target.value)}
-                    onKeyDown={(e) => e.key === 'Enter' && (e.preventDefault(), addSkill('wanted'))}
-                    list="skill-suggestions-wanted"
-                  />
-                  <datalist id="skill-suggestions-wanted">
-                    {SKILL_SUGGESTIONS.filter((s) => !editData.skillsWanted.includes(s)).map((s) => (
-                      <option key={s} value={s} />
-                    ))}
-                  </datalist>
-                  <Button variant="teal" size="sm" onClick={() => addSkill('wanted')} icon={<FiPlus />}>
-                    Add
-                  </Button>
-                </div>
-              )}
-            </motion.div>
+              <FiClock /> Swap History
+            </button>
           </div>
 
-          {isOwner && (
-            <motion.div
-              className="profile-section card"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.35 }}
-            >
-              <h2 className="profile-section-title">My Assets</h2>
-              {isAssetsLoading ? (
-                <LoadingSpinner text="Loading your assets..." />
-              ) : myAssets.length === 0 ? (
-                <p className="profile-bio">You have not posted any assets yet.</p>
-              ) : (
-                <div className="profile-assets-grid">
-                  {myAssets.map((asset, index) => (
-                    <AssetCard key={asset._id} asset={asset} index={index} showActions={false} />
-                  ))}
+          <AnimatePresence mode="wait">
+            {/* About & Skills Tab */}
+            {profileTab === 'about' && (
+              <motion.div
+                key="about"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+              >
+                <div className="profile-section card">
+                  <h2 className="profile-section-title">
+                    <FiUser /> About
+                  </h2>
+                  {isEditing ? (
+                    <textarea
+                      className="form-input profile-bio-input"
+                      value={editData.bio}
+                      onChange={(e) => setEditData({ ...editData, bio: e.target.value })}
+                      placeholder="Write something about yourself..."
+                      rows={4}
+                    />
+                  ) : (
+                    <p className="profile-bio">
+                      {displayData?.bio || 'No bio added yet. Click edit to add one!'}
+                    </p>
+                  )}
                 </div>
-              )}
-            </motion.div>
-          )}
 
-          {/* Swap History */}
-          <motion.div
-            className="profile-section card"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4 }}
-          >
-            <h2 className="profile-section-title">Swap History</h2>
-            {swapHistory.length === 0 ? (
-              <p className="profile-bio">No completed swaps yet.</p>
-            ) : (
-              <div className="swap-history">
-                {swapHistory.map((swap) => (
-                  <div key={swap._id} className="swap-history-item">
-                    <div>
-                      <strong>{swap.skillOffered}</strong> for <strong>{swap.skillRequested}</strong>
+                <div className="profile-skills-grid">
+                  <div className="profile-section card">
+                    <h2 className="profile-section-title" style={{ color: 'var(--coral-dark)' }}>
+                      🎯 Skills I Can Teach
+                    </h2>
+                    <div className="skill-tags-list">
+                      <AnimatePresence>
+                        {(displayData?.skillsOffered || []).map((skill, i) => (
+                          <SkillTag
+                            key={skill}
+                            skill={skill}
+                            variant="coral"
+                            index={i}
+                            removable={isEditing}
+                            onRemove={() => removeSkill('offered', skill)}
+                          />
+                        ))}
+                      </AnimatePresence>
+                      {(displayData?.skillsOffered || []).length === 0 && (
+                        <p className="no-skills">No skills added yet</p>
+                      )}
                     </div>
-                    <span>{new Date(swap.updatedAt || swap.createdAt).toLocaleDateString()}</span>
+                    {isEditing && (
+                      <div className="add-skill-row">
+                        <input
+                          type="text"
+                          className="form-input add-skill-input"
+                          placeholder="Type a skill or select below..."
+                          value={newSkillOffered}
+                          onChange={(e) => setNewSkillOffered(e.target.value)}
+                          onKeyDown={(e) => e.key === 'Enter' && (e.preventDefault(), addSkill('offered'))}
+                          list="skill-suggestions-offered"
+                        />
+                        <datalist id="skill-suggestions-offered">
+                          {SKILL_SUGGESTIONS.filter((s) => !editData.skillsOffered.includes(s)).map((s) => (
+                            <option key={s} value={s} />
+                          ))}
+                        </datalist>
+                        <Button variant="coral" size="sm" onClick={() => addSkill('offered')} icon={<FiPlus />}>
+                          Add
+                        </Button>
+                      </div>
+                    )}
                   </div>
-                ))}
-              </div>
+
+                  <div className="profile-section card">
+                    <h2 className="profile-section-title" style={{ color: 'var(--teal-dark)' }}>
+                      📚 Skills I Want to Learn
+                    </h2>
+                    <div className="skill-tags-list">
+                      <AnimatePresence>
+                        {(displayData?.skillsWanted || []).map((skill, i) => (
+                          <SkillTag
+                            key={skill}
+                            skill={skill}
+                            variant="teal"
+                            index={i}
+                            removable={isEditing}
+                            onRemove={() => removeSkill('wanted', skill)}
+                          />
+                        ))}
+                      </AnimatePresence>
+                      {(displayData?.skillsWanted || []).length === 0 && (
+                        <p className="no-skills">No skills added yet</p>
+                      )}
+                    </div>
+                    {isEditing && (
+                      <div className="add-skill-row">
+                        <input
+                          type="text"
+                          className="form-input add-skill-input"
+                          placeholder="Type a skill or select below..."
+                          value={newSkillWanted}
+                          onChange={(e) => setNewSkillWanted(e.target.value)}
+                          onKeyDown={(e) => e.key === 'Enter' && (e.preventDefault(), addSkill('wanted'))}
+                          list="skill-suggestions-wanted"
+                        />
+                        <datalist id="skill-suggestions-wanted">
+                          {SKILL_SUGGESTIONS.filter((s) => !editData.skillsWanted.includes(s)).map((s) => (
+                            <option key={s} value={s} />
+                          ))}
+                        </datalist>
+                        <Button variant="teal" size="sm" onClick={() => addSkill('wanted')} icon={<FiPlus />}>
+                          Add
+                        </Button>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </motion.div>
             )}
-          </motion.div>
+
+            {/* My Assets Tab */}
+            {profileTab === 'assets' && isOwner && (
+              <motion.div
+                key="assets"
+                className="profile-section card"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+              >
+                <h2 className="profile-section-title"><FiGrid /> My Assets</h2>
+                {isAssetsLoading ? (
+                  <LoadingSpinner text="Loading your assets..." />
+                ) : myAssets.length === 0 ? (
+                  <p className="profile-bio">You have not posted any assets yet.</p>
+                ) : (
+                  <div className="profile-assets-grid">
+                    {myAssets.map((asset, index) => (
+                      <AssetCard key={asset._id} asset={asset} index={index} showActions={false} />
+                    ))}
+                  </div>
+                )}
+              </motion.div>
+            )}
+
+            {/* Swap History Tab */}
+            {profileTab === 'history' && (
+              <motion.div
+                key="history"
+                className="profile-section card"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+              >
+                <h2 className="profile-section-title"><FiClock /> Swap History</h2>
+                {swapHistory.length === 0 ? (
+                  <p className="profile-bio">No completed swaps yet.</p>
+                ) : (
+                  <div className="swap-history">
+                    {swapHistory.map((swap) => (
+                      <div key={swap._id} className="swap-history-item">
+                        <div>
+                          <strong>{swap.skillOffered}</strong> for <strong>{swap.skillRequested}</strong>
+                        </div>
+                        <span>{new Date(swap.updatedAt || swap.createdAt).toLocaleDateString()}</span>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
       </section>
     </AnimatedPage>
